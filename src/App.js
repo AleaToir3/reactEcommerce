@@ -1,11 +1,14 @@
-  import Categories from './components/category-item/categories.components'
+ 
+import { Routes, Route, Link } from "react-router-dom";
+import Home from "./route/HomeComponents/Home.components";
+
 
 const App = () => {
   
   return (
-   <>
-    <Categories/>
-   </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+   </Routes>
   );
 };
 
