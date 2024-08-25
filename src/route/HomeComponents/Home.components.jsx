@@ -1,6 +1,7 @@
  import '../../components/category-item/style/categories.styles.scss'
  import CategoryItem from '../../components/category-item/category-Item.components' 
-
+import { Outlet } from 'react-router-dom';
+ 
 
 const Home = () => {
   const categories = [
@@ -33,10 +34,13 @@ const Home = () => {
 
   return (
     <div className="categories-container">
-      {categories.map((category) => {
+       {categories.map((category) => {
         return <CategoryItem category={category} key={category.id}/>;
-      })}
+      })}   
+      <Outlet/>
+   
     </div>
+    
   );
 };
 export default Home;
