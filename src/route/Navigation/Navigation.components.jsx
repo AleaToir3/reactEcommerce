@@ -8,20 +8,20 @@ const Navigation = () =>{
     return (
         // No difference btw <Fragment> and <>
         <Fragment>
-        <div className="navigation">
+            <div className="navigation">
 
-        <Link to="/" className="logo-container">
-            <Logo className="logo"/>
-        </Link>
-        <Link to="/shop" className="nav-links-container" >
-            Shop
-        </Link>
+            <Link to="/" className="logo-container">
+                <Logo className="logo"/>
+            </Link>
+            <Link to="/shop" className="nav-links-container" >
+                Shop
+            </Link>
 
-        <Link to="/signIn" className="nav-links-container" >
-            Sign-In
-        </Link>
-           
-        </div>
+            <Link to="/signIn" className="nav-links-container" >
+                Sign-In
+            </Link>
+            
+            </div>
             <Outlet/>
         </Fragment>
     )

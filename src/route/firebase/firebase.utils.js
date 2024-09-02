@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithRedirect, signInWithPopup } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithRedirect, signInWithPopup, createUserWithEmailAndPassword} from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -30,15 +30,15 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 export const db = getFirestore();
 
 // Fonction pour créer un document utilisateur dans Firestore à partir des informations d'authentification
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth,additionalInformation={}) => {
+
   // Référence au document utilisateur dans Firestore
   const userDocRef = doc(db, "users", userAuth.uid);
 
   // Obtenir le document utilisateur depuis Firestore
   const userSnapshot = await getDoc(userDocRef);
 
-  console.log("userAuth",userAuth);
-  if (!userSnapshot.exists()) {
+   if (!userSnapshot.exists()) {
     const {displayName,email} = userAuth;
     const createAt = new Date(); 
 
@@ -46,10 +46,24 @@ export const createUserDocumentFromAuth = async (userAuth) => {
       await setDoc(userDocRef,{
         displayName,
         email,
-        createAt
+        createAt,
+        ...additionalInformation
       })
     } catch (error) {
        console.log("ERROR DETECTED WHEN CREATING A USER",error);
     }
 };
+}
+
+export const createAuthUserForFirebaseWithEmailAndPassword = async (displayName,email,password)=>{
+  try {
+    const {user} = await createUserWithEmailAndPassword(auth,email,password);
+    await createUserDocumentFromAuth(user,{displayName})
+    
+  } catch (error) {
+      if(error.code= "auth/email-already-in-use"){
+        alert("EMAIL ALREADY USED !!!")
+    }else console.log("user creation encountered an error",error);
+    
+  }
 }
