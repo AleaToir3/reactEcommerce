@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { createAuthUserForFirebaseWithEmailAndPassword } from "../../route/firebase/firebase.utils";
 import FormInput from "./form-input.component";
+import './signUpForm.scss'
+import Button from "../button/button.component";
 
 const defaultFormFiled = {
     displayName : '',
@@ -25,7 +27,7 @@ const SignUpForm = () => {
     const handleSubmit = async(e)=>{
         const {displayName,Email,Password} = formField
         e.preventDefault();
-        if(Password != ConfirmPassword && !Email || !Password){
+        if((Password != ConfirmPassword && !Email )|| !Password){
             return console.log("Password are not same or one of the fields are empty");
         }
 
@@ -37,14 +39,15 @@ const SignUpForm = () => {
         }
     }
      return (
-        <div>
-            <h1> Sign up Form with Email and Password</h1>
+        <div className="sign-up-container">
+            <h2>don't have an account</h2>
+            <span> Sign up Form with Email and Password</span>
             <form onSubmit={handleSubmit}>
                 <FormInput label="Display Name" required onChange={handleChange} name='displayName' value={displayName}/>
                 <FormInput label="Email" required onChange={handleChange} name='Email' value={Email}/>
                 <FormInput label="password" required onChange={handleChange} name='Password' value={Password}/>
                 <FormInput label="Confirm Password" required onChange={handleChange} name='ConfirmPassword' value={ConfirmPassword}/>
-                <button type="submit" >Send</button>
+                <Button  buttonType='inverted' type='submit'>Sign Up</Button>
              </form>
 
            
