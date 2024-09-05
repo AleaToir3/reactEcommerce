@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithRedirect, signInWithPopup, createUserWithEmailAndPassword} from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPassword} from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -50,7 +50,7 @@ export const createUserDocumentFromAuth = async (userAuth,additionalInformation=
         ...additionalInformation
       })
     } catch (error) {
-       console.log("ERROR DETECTED WHEN CREATING A USER",error);
+       console.log("Error detected while creating a user",error);
     }
 };
 }
@@ -62,8 +62,27 @@ export const createAuthUserForFirebaseWithEmailAndPassword = async (displayName,
     
   } catch (error) {
       if(error.code= "auth/email-already-in-use"){
-        alert("EMAIL ALREADY USED !!!")
+        alert(`${error}`)
     }else console.log("user creation encountered an error",error);
+    
+  }
+}
+
+export const loginAuthUserForFirebaseWithEmailAndPassword = async (email,password)=>{
+  try {
+    const {user} = await signInWithEmailAndPassword(auth,email,password);
+  } catch (error) {
+   switch (error.code) {
+    case "auth/invalid-email":
+       alert("Email is invalid, but it's not secure to tell you that! 😄")
+      break; 
+    case "auth/invalid-credential":
+      alert("Password is invalid, but it's not secure to tell you that! 😆")
+      break;
+    default:
+      console.log('Error:', error.code || error.msg || error.message || "ERROR !");
+      break;
+   }
     
   }
 }

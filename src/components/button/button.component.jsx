@@ -1,5 +1,5 @@
-import './button.styles.scss'
-
+import { collectionGroup } from "firebase/firestore";
+import "./button.styles.scss"
 const BUTTON_TYPE_CLASS = {
     google: 'google-sign-in',
     inverted: 'inverted'
@@ -7,8 +7,8 @@ const BUTTON_TYPE_CLASS = {
 
 const Button = ({children,buttonType,...otherDataButton})=>{
 
-    return (
-        <button className={`buton-container ${BUTTON_TYPE_CLASS[buttonType]}`}{...otherDataButton}>
+     return (
+        <button className={`button-container ${BUTTON_TYPE_CLASS[buttonType]}`}{...otherDataButton}>
             {/* 🛑react children */} 
             {children}
         </button>
