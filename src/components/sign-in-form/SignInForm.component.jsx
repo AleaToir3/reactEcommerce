@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { createUserDocumentFromAuth, loginAuthUserForFirebaseWithEmailAndPassword, signInWithGooglePopup } from "../../route/firebase/firebase.utils";
 import FormInput from "./form-input.component";
 import Button from "../button/button.component";
 import './signInForm.scss'
+import { UserContext } from "../../contexts/user.context";
 
 
 const defaultFormFiled = {
@@ -14,6 +15,7 @@ const SignInForm = () => {
     
     const [formField,setFormFiled] = useState(defaultFormFiled);
     const {Email,Password} = formField;
+    const {setCurrentUser} = useContext(UserContext);
     
     const handleChange = (e)=>{
         const {value,name} = e.target
@@ -28,31 +30,20 @@ const SignInForm = () => {
         e.preventDefault();
         
         try {
-            await loginAuthUserForFirebaseWithEmailAndPassword(Email,Password)
+            const {user} = await loginAuthUserForFirebaseWithEmailAndPassword(Email,Password)
             resetFormField()            
-        } catch (error) {
-            console.log("COUCOU");
-            // console.log(error.code);
-            // switch (error) {
-            //     case "auth/invalid-email":
-            //         alert('Invalid email !')
-            //         break;
-            //     case "invalid-email":
-            //         alert('Invalid  !')
-            //         break;
-                
-            //     default:
-            //         break;
-            // }
+            setCurrentUser(user);
+        } catch (error) {       
             console.log("Sign-in Error: ",error);
         }
+        
     } 
     const logGoogleUser = async () =>{
         try {
             const {user} = await signInWithGooglePopup(); 
             createUserDocumentFromAuth(user)            
         } catch (error) {
-          console.log("Google sign-in Error: ",error);    
+          console.log(error);    
         }
    }
      return (      

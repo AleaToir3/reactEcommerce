@@ -70,7 +70,7 @@ export const createAuthUserForFirebaseWithEmailAndPassword = async (displayName,
 
 export const loginAuthUserForFirebaseWithEmailAndPassword = async (email,password)=>{
   try {
-    const {user} = await signInWithEmailAndPassword(auth,email,password);
+   return await signInWithEmailAndPassword(auth,email,password);
   } catch (error) {
    switch (error.code) {
     case "auth/invalid-email":
