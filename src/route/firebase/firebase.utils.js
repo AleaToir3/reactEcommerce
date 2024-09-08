@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPassword} from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPassword, signOut} from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -58,10 +58,10 @@ export const createUserDocumentFromAuth = async (userAuth,additionalInformation=
 export const createAuthUserForFirebaseWithEmailAndPassword = async (displayName,email,password)=>{
   try {
     const {user} = await createUserWithEmailAndPassword(auth,email,password);
-    await createUserDocumentFromAuth(user,{displayName})
-    
+     await createUserDocumentFromAuth(user,{displayName})
+     return user    
   } catch (error) {
-      if(error.code= "auth/email-already-in-use"){
+      if(error.code == "auth/email-already-in-use"){
         alert(`${error}`)
     }else console.log("user creation encountered an error",error);
     
@@ -82,7 +82,8 @@ export const loginAuthUserForFirebaseWithEmailAndPassword = async (email,passwor
     default:
       console.log('Error:', error.code || error.msg || error.message || "ERROR !");
       break;
-   }
-    
+   }    
   }
 }
+
+export const signOutUser = async () => await signOut(auth);
