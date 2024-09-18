@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { createUserDocumentFromAuth, loginAuthUserForFirebaseWithEmailAndPassword, signInWithGooglePopup } from "../../route/firebase/firebase.utils";
 import FormInput from "./form-input.component";
 import Button from "../button/button.component";
 import './signInForm.scss'
-import { UserContext } from "../../contexts/user.context";
-
+import { getAuth } from "firebase/auth";
+ 
 
 const defaultFormFiled = {
     Email : '',
@@ -15,7 +15,6 @@ const SignInForm = () => {
     
     const [formField,setFormFiled] = useState(defaultFormFiled);
     const {Email,Password} = formField;
-    const {setCurrentUser} = useContext(UserContext);
     
     const handleChange = (e)=>{
         const {value,name} = e.target
@@ -31,8 +30,7 @@ const SignInForm = () => {
         
         try {
             const {user} = await loginAuthUserForFirebaseWithEmailAndPassword(Email,Password)
-            resetFormField()            
-            setCurrentUser(user);
+             resetFormField()            
         } catch (error) {       
             console.log("Sign-in Error: ",error);
         }
@@ -40,14 +38,14 @@ const SignInForm = () => {
     } 
     const logGoogleUser = async () =>{
         try {
-            const {user} = await signInWithGooglePopup(); 
-           await createUserDocumentFromAuth(user)   
-           setCurrentUser(user);
-         
+            await signInWithGooglePopup();           
         } catch (error) {
           console.log(error);    
         }
    }
+   const qui = ()=>{
+    console.log("coucou123",getAuth().currentUser)
+    }
      return (      
          
          <div className="sign-in-container">
@@ -59,6 +57,7 @@ const SignInForm = () => {
                 <div className="container-btn">
                     <Button>Sign Up</Button>
                     <Button buttonType='google' onClick={logGoogleUser} type="button">Sign in Google</Button>
+                    <Button buttonType='google' onClick={qui} type="button">qui suis je</Button>
                 </div>
              </form>           
          </div>

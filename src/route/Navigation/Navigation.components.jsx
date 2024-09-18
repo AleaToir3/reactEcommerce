@@ -4,14 +4,10 @@ import { ReactComponent as Logo } from "../../assets/crown.svg";
 import './navigation.styles.scss'
 import { UserContext } from "../../contexts/user.context";
 import { signOutUser } from "../firebase/firebase.utils";
-import { collectionGroup } from "firebase/firestore";
 
 const Navigation = () =>{
-const {setCurrentUser,currentUser} = useContext(UserContext) 
-const handlerUser = async ()=>{
-    await signOutUser();
-    setCurrentUser(null)
-}
+const {currentUser} = useContext(UserContext);
+ 
      return (
         // No difference btw <Fragment> and <>
         <Fragment>
@@ -25,7 +21,7 @@ const handlerUser = async ()=>{
             </Link>
         
             <Link to="/auth" className="nav-links-container" >
-                {currentUser ? (<span onClick={handlerUser}>Sign Out</span>):"Sign In"}
+                {currentUser ? (<span onClick={signOutUser}>Sign Out</span>):"Sign In"}
             </Link>
             </div>
             <Outlet/>

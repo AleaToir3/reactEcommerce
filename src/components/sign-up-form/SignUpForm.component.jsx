@@ -1,9 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { createAuthUserForFirebaseWithEmailAndPassword } from "../../route/firebase/firebase.utils";
 import FormInput from "./form-input.component";
 import './signUpForm.scss'
 import Button from "../button/button.component";
-import { UserContext } from "../../contexts/user.context";
 
 const defaultFormFiled = {
     displayName : '',
@@ -16,7 +15,6 @@ const SignUpForm = () => {
     
     const [formField,setFormFiled] = useState(defaultFormFiled);
     const {displayName,Email,Password,ConfirmPassword} = formField;
-    const {setCurrentUser} = useContext(UserContext);
 
     
     const handleChange = (e)=>{
@@ -35,13 +33,14 @@ const SignUpForm = () => {
         }
 
         try {
+            console.log("creaction de compte");
            const user =  await createAuthUserForFirebaseWithEmailAndPassword(displayName,Email,Password)
             resetFormField()     
-            setCurrentUser(user)
         } catch (error) {
             console.log("user creation error",error);
         }
     }
+
      return (
         <div className="sign-up-container">
             <h2>don't have an account</h2>
