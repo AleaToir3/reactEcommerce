@@ -4,7 +4,6 @@ import { createUserDocumentFromAuth, onAuthStateChangedListener} from "../route/
 export const UserContext = createContext({
     currentUser: null,
     setCurrentUser:()=> null,
-
 })
 
 export const UserProvider = ({children}) =>{
@@ -14,7 +13,6 @@ export const UserProvider = ({children}) =>{
 
     useEffect(()=>{
         const unsubribe = onAuthStateChangedListener((user)=>{
-            console.log("user dans mon userEffect :",user);
             if(user){
                 createUserDocumentFromAuth(user);
             }

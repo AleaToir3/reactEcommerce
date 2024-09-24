@@ -1,4 +1,3 @@
-import { collectionGroup } from "firebase/firestore";
 import "./button.styles.scss"
 const BUTTON_TYPE_CLASS = {
     google: 'google-sign-in',
@@ -6,8 +5,7 @@ const BUTTON_TYPE_CLASS = {
 }
 
 const Button = ({children,buttonType,...otherDataButton})=>{
-
-     return (
+      return (
         <button className={`button-container ${BUTTON_TYPE_CLASS[buttonType]}`}{...otherDataButton}>
             {/* 🛑react children */} 
             {children}
