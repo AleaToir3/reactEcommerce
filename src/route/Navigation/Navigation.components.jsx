@@ -33,7 +33,7 @@ const {basket} = useContext(BasketContext)
                       {currentUser ? (<span onClick={signOutUser}>Sign Out</span>):"Sign In"}
                   </Link>
 
-                  <CartIcon setBasketVisibility={setBasketVisibility} countItem={basket.length}/>
+                  <CartIcon setBasketVisibility={setBasketVisibility} countItem={0}/> {/* basket.length  */}
               </div>
                   {basketVisibility && <CartDropDown />  }
           </div>
