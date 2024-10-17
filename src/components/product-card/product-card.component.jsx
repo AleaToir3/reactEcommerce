@@ -8,7 +8,7 @@ const ProductCard = ({product})=>{
     const {basket,setBasket, addItemToCart} = useContext(BasketContext)
 
      return (
-        <div className='product-card-container'>
+        <div className='product-card-container' key={product.id}>
             <img src={imageUrl} alt={`${name}`}/>
             <div className='footer'>
                 <span className='name'>{name}</span>
