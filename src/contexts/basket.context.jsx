@@ -1,46 +1,65 @@
 import { createContext, useEffect, useState } from "react";
 
 export const BasketContext = createContext({
-    cartItems:[],
-    addItemToCart:()=>{},
-    totalItems:0
-    })
-    
-export const BasketProvider = ({children})=>{
+  cartItems: [],
+  addItemToCart: () => {},
+  total: () => {},
+  totalItems: 0,
+});
 
-const addCartItem = (productToAdd,cartItems,totalItems)=>{ 
-    setTotalItems(prevTotalItems => prevTotalItems + 1);
-     console.log("concon",totalItems);
-     const updateProductToAdd = {...productToAdd, quantity: 1 }
-     let cartItemsUpdate = [...cartItems];
-     const indexFind = cartItems.findIndex(item => item.id === productToAdd.id);
+export const BasketProvider = ({ children }) => {
+    const [totalItems, setTotalItems] = useState(0);
+    const [cartItems, setCartItems] = useState([]);
+    const total = ()=>{
 
-    if(indexFind !== -1){
-         cartItemsUpdate[indexFind].quantity = cartItemsUpdate[indexFind].quantity + updateProductToAdd.quantity;
-         return cartItemsUpdate       
-    }else {
-         cartItemsUpdate = [...cartItems, { ...productToAdd, quantity: 1 }]
-        return cartItemsUpdate
     }
- }
+    const addCartItem = (productToAdd, cartItems) => {
+        setTotalItems((prevTotalItems) => prevTotalItems + 1);
 
+        const updateProductToAdd = { ...productToAdd, quantity: 1 };
+        let cartItemsUpdate = [...cartItems];
+        const indexFind = cartItems.findIndex((item) => item.id === productToAdd.id);
 
-    const [totalItems,setTotalItems] = useState(0)
-    const [cartItems,setCartItems] = useState([])
-    const addItemToCart = (productToAdd)=>{
-        setCartItems(addCartItem(productToAdd,cartItems))
-    }
+        if (indexFind !== -1) {
+        cartItemsUpdate[indexFind].quantity = cartItemsUpdate[indexFind].quantity + updateProductToAdd.quantity;
+        return cartItemsUpdate;
+        } else {
+        cartItemsUpdate = [...cartItems, { ...productToAdd, quantity: 1 }];
+        return cartItemsUpdate;
+        }       
+    };
 
+    const reduceCartItemQuantity = (productToReduce) => {
+        let cartItemsUpdate = [...cartItems];
+        const indexFind = cartItems.findIndex((item) => item.id === productToReduce.id);
 
-    useEffect(() => {
-        console.log("État actuel de cartItems :", cartItems);
-      }, [cartItems]);
-    
-    const value = {cartItems,setCartItems,addItemToCart,totalItems,setTotalItems}
-    return(
-        <BasketContext.Provider value={value} >
-            {children}
-        </BasketContext.Provider>
-    )
-    
-}
+        if (indexFind !== -1) {
+            cartItemsUpdate[indexFind].quantity = cartItemsUpdate[indexFind].quantity - 1;
+        }
+        if (cartItemsUpdate[indexFind].quantity <= 0) {
+            return deleteItem(productToReduce);
+        }
+        return cartItemsUpdate;
+    };
+
+    const deleteItem = (product) => {
+        const cartItemsUpdate = cartItems.filter(item => item.id !== product.id);
+        setTotalItems(prev=>prev - product.quantity)
+        setCartItems(prev=>cartItemsUpdate)
+        return cartItemsUpdate;
+    };
+
+  const addItemToCart = (productToAdd) => {
+    setCartItems(addCartItem(productToAdd, cartItems));
+  };
+
+  const reduceItemQuantity = (productToReduce) => {
+    totalItems > 0 && setTotalItems((prevTotalItems) => prevTotalItems - 1);
+    setCartItems(reduceCartItemQuantity(productToReduce));
+  };
+
+  const value = { cartItems, setCartItems, addItemToCart, reduceItemQuantity, deleteItem, totalItems, setTotalItems,total };
+
+  return <BasketContext.Provider value={value}>{children}</BasketContext.Provider>;
+};
+
