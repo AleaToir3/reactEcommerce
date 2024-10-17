@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, createUserWithEmailAndPassword, signOut, onAuthStateChanged} from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA9TrpZj2-xXtDUgb7LX6gHIGGQW7op6Xo", // Clé API pour authentifier les requêtes
@@ -28,6 +28,33 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 
 // Obtenir une instance de la base de données Firestore
 export const db = getFirestore();
+
+export const addCollectionAndDocuments = async (collectionKey,objetsToAdd)=>{
+
+  const collectionRef = collection(db, collectionKey);
+  //writing with "transaction mode"
+  const batch = writeBatch(db)
+ 
+  objetsToAdd.forEach((objet) => {
+    const docRef = doc(collectionRef, objet.title.toLowerCase());
+    batch.set(docRef,objet)    
+  });
+  
+  await batch.commit();
+}
+
+export const getCategoriesAndDocuments = async ()=>{
+  const collectionRef = collection(db,'categories');
+  const q = query(collectionRef)
+   
+  const querySnapshop = await getDocs(q)
+  const categoryMap = querySnapshop.docs.reduce((acc,docSnapShot)=>{
+    const {title,items} = docSnapShot.data();
+    acc[title.toLowerCase()] = items;
+    return acc
+  },{}) 
+  return categoryMap
+ }
 
 // Fonction pour créer un document utilisateur dans Firestore à partir des informations d'authentification
 export const createUserDocumentFromAuth = async (userAuth,additionalInformation={}) => {
@@ -89,3 +116,7 @@ export const loginAuthUserForFirebaseWithEmailAndPassword = async (email,passwor
 export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback)=>onAuthStateChanged(auth,callback);
+
+
+
+
