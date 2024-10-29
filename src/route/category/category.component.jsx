@@ -12,16 +12,18 @@ const Category = ()=>{
     useEffect(()=>{
         setProducts(categoriesMap[category])
     },[category,categoriesMap])
-
+    console.log(category)
 
   return (
-    <div className="aCategory-container">
-        {
-            products && products.map((product)=>(
-                <ProductCard key={product.id} product={product}/>
-            ))
-        }
-    </div>
+    <>  <h1>{category.toUpperCase()}</h1>
+        <div className="aCategory-container">
+            {
+                products && products.map((product)=>(
+                    <ProductCard key={product.id} product={product}/>
+                ))
+            }
+        </div>
+    </>
   )
 }
 export default Category;
