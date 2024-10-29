@@ -27,8 +27,9 @@ const CheckoutCard = ({product})=>{
             <span className='value'>{quantity}</span>
             <div className='arrow' onClick={addQuantity}> &#10095; </div>
         </span>
-        <span className='price'> {finalPrice}</span>
-        <div className='remove-button' onClick={deletItemFromItems}> &#10005; </div>
+        <span className='price'> {finalPrice} &pound;
+        </span>
+        <div className='remove-button' onClick={deletItemFromItems}> &#10005;</div>
     </div>
     )
 }
