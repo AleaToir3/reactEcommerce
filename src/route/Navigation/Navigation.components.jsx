@@ -14,8 +14,6 @@ const [basketVisibility,setBasketVisibility] = useState(false)
 useEffect(() => {
 }, [basketVisibility]);
 
-const {basket} = useContext(BasketContext)
-
   return (
       // No difference btw <Fragment> and <>
       <Fragment>

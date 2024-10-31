@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 // Initialiser Firebase avec la configuration spécifiée
-const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 // Créer un fournisseur d'authentification Google
 const provider = new GoogleAuthProvider();
@@ -88,7 +88,7 @@ export const createAuthUserForFirebaseWithEmailAndPassword = async (displayName,
      await createUserDocumentFromAuth(user,{displayName})
      return user    
   } catch (error) {
-      if(error.code == "auth/email-already-in-use"){
+      if(error.code === "auth/email-already-in-use"){
         alert(`${error}`)
     }else console.log("user creation encountered an error",error);
     

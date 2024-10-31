@@ -12,8 +12,7 @@ const SignInDefaultValue = {
 
 const Authentification = ()=>{
 
-const [inputSignIn,setInputSignIn] = useState(SignInDefaultValue);
-const {email,password} = inputSignIn; 
+const [inputSignIn] = useState(SignInDefaultValue);
 
     return (
         <div className='authentication-container'>

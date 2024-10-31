@@ -28,13 +28,13 @@ const SignUpForm = () => {
     const handleSubmit = async(e)=>{
         const {displayName,Email,Password} = formField
         e.preventDefault();
-        if((Password != ConfirmPassword && !Email )|| !Password){
+        if((Password !== ConfirmPassword && !Email )|| !Password){
             return console.log("Password are not same or one of the fields are empty");
         }
 
         try {
             console.log("creaction de compte");
-           const user =  await createAuthUserForFirebaseWithEmailAndPassword(displayName,Email,Password)
+           await createAuthUserForFirebaseWithEmailAndPassword(displayName,Email,Password)
             resetFormField()     
         } catch (error) {
             console.log("user creation error",error);

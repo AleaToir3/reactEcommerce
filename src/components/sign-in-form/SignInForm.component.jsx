@@ -29,7 +29,7 @@ const SignInForm = () => {
         e.preventDefault();
         
         try {
-            const {user} = await loginAuthUserForFirebaseWithEmailAndPassword(Email,Password)
+             await loginAuthUserForFirebaseWithEmailAndPassword(Email,Password)
              resetFormField()            
         } catch (error) {       
             console.log("Sign-in Error: ",error);

@@ -3,7 +3,7 @@ import { BasketContext } from "../../contexts/basket.context";
 import './checkout-item.styles.scss'
 
 const CheckoutCard = ({product})=>{
-    const {id,imageUrl,name,quantity,price} = product;
+    const {imageUrl,name,quantity,price} = product;
     const finalPrice = quantity * price;
     const {addItemToCart,reduceItemQuantity,deleteItem} = useContext(BasketContext)
     

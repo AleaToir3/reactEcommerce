@@ -5,7 +5,7 @@ import './product-card.styles.scss'
 
 const ProductCard = ({product})=>{
     const {name , price , imageUrl} = product;
-    const {basket,setBasket, addItemToCart} = useContext(BasketContext)
+    const {addItemToCart} = useContext(BasketContext)
 
      return (
         <div className='product-card-container' key={product.id}>
